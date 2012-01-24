@@ -2,6 +2,10 @@ package com.ddetyuk.connection;
 
 import java.util.HashMap;
 
+/**
+ * 
+ * @author Dmitriy Detyuk (ddetyuk@gmail.com)
+ */
 public abstract class AmfAction implements Action{
 
 	public AmfAction(){
@@ -13,7 +17,7 @@ public abstract class AmfAction implements Action{
 		headers.put("Accept-Charset", "windows-1251,utf-8;q=0.7,*;q=0.7");
 		headers.put("Connection", "keep-alive");
 		headers.put("x-insight", "activate");
-		headers.put("Referer","http://cs304205.vkontakte.ru/[[IMPORT]]/cs304904.vkontakte.ru/u104048413/c4469458f209d6.zip?1288194647");
+		headers.put("Referer", "http://cs304205.vkontakte.ru/[[IMPORT]]/cs304904.vkontakte.ru/u104048413/c4469458f209d6.zip?1288194647");
 		headers.put("Content-type", "application/x-www-form-urlencoded");
 	}
 	

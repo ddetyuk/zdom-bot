@@ -4,6 +4,10 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.HashMap;
 
+/**
+ * 
+ * @author Dmitriy Detyuk (ddetyuk@gmail.com)
+ */
 public interface Action {
 	
 	public String method = "";
