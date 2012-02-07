@@ -50,7 +50,16 @@ public class Session {
 		us_uid = data.get("us_uid");
 		us_key = data.get("us_key");
 	}
-
+	
+	public HashMap<String, String> toHashMap(){
+		HashMap<String, String> data = new HashMap<String, String>();
+		data.put("us_sid",us_sid);
+		data.put("us_crc",us_crc);
+		data.put("us_uid",us_uid);
+		data.put("us_key",us_key);
+		return data;
+	}
+	
 	@Override
 	public String toString() {
 		return new ToStringBuilder(this).append("us_sid", us_sid)

@@ -9,6 +9,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.zip.GZIPInputStream;
 
+
 /**
  * 
  * @author Dmitriy Detyuk (ddetyuk@gmail.com)
@@ -21,7 +22,7 @@ public class Connector {
 
 	}
 
-	public void execute(Action action) {
+	public void execute(Action action){
 
 		try {
 
@@ -40,12 +41,12 @@ public class Connector {
 
 			// push data
 			//connection.setFixedLengthStreamingMode(390);
+			//ByteArrayOutputStream baos = new ByteArrayOutputStream();
+			//action.getRequestData(baos);
+			//connection.getOutputStream().write(baos.toByteArray());
+			//connection.setFixedLengthStreamingMode(length);
 			
-			int length = action.getRequestData(connection.getOutputStream());
-			logger.log(Level.SEVERE, "length:"+length);
-			
-			
-			// connection.setFixedLengthStreamingMode(length);
+			action.getRequestData(connection.getOutputStream());
 
 			if (connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
 				if (connection.getContentEncoding().equals("gzip")) {

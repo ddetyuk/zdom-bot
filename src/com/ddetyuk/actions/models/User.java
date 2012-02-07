@@ -10,6 +10,7 @@ import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 import javax.persistence.CascadeType;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
 
@@ -44,16 +45,16 @@ public class User {
 	private List<UserFriend> app_friends = new ArrayList<UserFriend>();
 
 	@Persistent(defaultFetchGroup = "false")
-	@OneToMany(mappedBy = "id", cascade = { CascadeType.ALL })
-	private List<Session> sessions = new ArrayList<Session>();
+	@OneToOne(mappedBy = "id", cascade = { CascadeType.ALL })
+	private Session session;
 
 	@Persistent(defaultFetchGroup = "false")
-	@OneToMany(mappedBy = "id", cascade = { CascadeType.ALL })
-	private List<UserInfo> userInfo = new ArrayList<UserInfo>();
+	@OneToOne(mappedBy = "id", cascade = { CascadeType.ALL })
+	private UserInfo userInfo;
 
 	public User(String uid, String avatar, String link, String nick,
 			String lang, String sig, List<UserFriend> app_friends,
-			List<Session> sessions, List<UserInfo> userInfo) {
+			Session session, UserInfo userInfo) {
 		super();
 		this.uid = uid;
 		this.avatar = avatar;
@@ -62,7 +63,7 @@ public class User {
 		this.lang = lang;
 		this.sig = sig;
 		this.app_friends = app_friends;
-		this.sessions = sessions;
+		this.session = session;
 		this.userInfo = userInfo;
 	}
 
@@ -122,19 +123,19 @@ public class User {
 		this.app_friends = app_friends;
 	}
 
-	public List<Session> getSessions() {
-		return sessions;
+	public Session getSession() {
+		return session;
 	}
 
-	public void setSessions(List<Session> sessions) {
-		this.sessions = sessions;
+	public void setSession(Session session) {
+		this.session = session;
 	}
 
-	public List<UserInfo> getUserInfo() {
+	public UserInfo getUserInfo() {
 		return userInfo;
 	}
 
-	public void setUserInfo(List<UserInfo> userInfo) {
+	public void setUserInfo(UserInfo userInfo) {
 		this.userInfo = userInfo;
 	}
 
