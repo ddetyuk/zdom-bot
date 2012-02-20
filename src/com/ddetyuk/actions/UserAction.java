@@ -6,9 +6,8 @@ import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.ddetyuk.actions.models.Session;
 import com.ddetyuk.actions.models.User;
-import com.ddetyuk.actions.models.UserInfo;
+import com.ddetyuk.connection.ActionException;
 import com.ddetyuk.connection.AmfAction;
 import com.exadel.flamingo.flex.messaging.util.StringUtil;
 
@@ -21,24 +20,10 @@ public class UserAction extends AmfAction {
 
 	private static Logger logger = Logger.getLogger(UserAction.class.toString());
 
-	protected Integer result;
-	protected String error;
 	protected User user;
-
-	public UserAction() {
-
-	}
 
 	public void setUser(User user) {
 		this.user = user;
-	}
-	
-	public UserInfo getUserInfo(){
-		return null;
-	}
-
-	public Session getSession(){
-		return null;
 	}
 	
 	@Override
@@ -53,20 +38,45 @@ public class UserAction extends AmfAction {
 		return 0;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public void setResponceData(InputStream in) {
+	public void setResponceData(InputStream in) throws ActionException {
 		
-		HashMap<String, Object> responce = new HashMap<String, Object>();
-		unserialize(in, responce);
+		HashMap<String, Object> responce = (HashMap<String, Object>)unserialize(in);
+		
+		logger.log(Level.FINE, "Responce data:" + StringUtil.toString(responce));
 
 		if (null != responce.get("error")) {
-			error = (String) responce.get("error");
+			throw new ActionException((String) responce.get("error"));
 		}
-		if (null != responce.get("result")) {
-			result = (Integer) responce.get("result");
+		
+		if (null != responce.get("user")) {
+			HashMap<String, Object> udata = (HashMap<String, Object>) responce.get("user");
+			if (null != udata.get("user")) {
+				HashMap<String, Object> data = (HashMap<String, Object>) udata.get("user");
+				
+				//logger.log(Level.FINE, "data:" + StringUtil.toString(data));
+				
+				user.setLevel(Long.parseLong(data.get("level").toString()));
+				user.setMoney(Long.parseLong(data.get("money").toString()));
+				user.setExperience(Long.parseLong(data.get("EXP").toString()));
+				user.setGems(Long.parseLong(data.get("money_real").toString()));
+				
+				user.setEnergy(Double.parseDouble(data.get("ENERGY").toString()));
+				user.setEnergyMax(Double.parseDouble(data.get("ENERGY_MAX").toString()));
+				user.setEnergyRestore(Double.parseDouble(data.get("ENERGY_RESTORE_T").toString()));
+				user.setEnergyUptime(Double.parseDouble(data.get("ENERGY_UPTIME").toString()));
+				
+				user.setEndurance(Double.parseDouble(data.get("ENDURANCE").toString()));
+				user.setEnduranceMax(Double.parseDouble(data.get("ENDURANCE_MAX").toString()));
+				user.setEnduranceRestore(Double.parseDouble(data.get("ENDURANCE_RESTORE_T").toString()));
+				user.setEnduranceUptime(Double.parseDouble(data.get("ENDURANCE_UPTIME").toString()));
+			}
 		}
-
-		logger.log(Level.WARNING, "Responce data:" + StringUtil.toString(responce));
-
+	}
+	
+	@Override
+	public String toString() {
+		return "Action User";
 	}
 }

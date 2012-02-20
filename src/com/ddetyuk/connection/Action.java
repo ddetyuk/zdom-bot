@@ -14,7 +14,7 @@ public interface Action {
 	public String method = "";
 	public HashMap<String, String> headers = new HashMap<String, String>();
 	public String url = "";
-
+	
 	public HashMap<String, String> getHeaders();
 	
 	public String getMathod();
@@ -23,6 +23,10 @@ public interface Action {
 	
 	public int getRequestData(OutputStream os);
 	
-	public void setResponceData(InputStream is);
+	public void setResponceData(InputStream is) throws ActionException;
 
+	public boolean isError();
+	
+	public String getError();
+	
 }

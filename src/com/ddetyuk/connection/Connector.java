@@ -22,8 +22,8 @@ public class Connector {
 
 	}
 
-	public void execute(Action action){
-
+	public void execute(Action action) throws ActionException {
+		logger.log(Level.INFO,"Execute action: " + action.toString() );
 		try {
 
 			URL url = new URL(action.getUrl());
@@ -50,11 +50,11 @@ public class Connector {
 
 			if (connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
 				if (connection.getContentEncoding().equals("gzip")) {
-					logger.log(Level.SEVERE, "ContentEncoding: gzip");
+					logger.log(Level.FINE, "ContentEncoding: gzip");
 					action.setResponceData(new GZIPInputStream(connection
 							.getInputStream()));
 				} else {
-					logger.log(Level.SEVERE, "ContentEncoding: other");
+					logger.log(Level.FINE, "ContentEncoding: other");
 					action.setResponceData(connection.getInputStream());
 				}
 			} else {

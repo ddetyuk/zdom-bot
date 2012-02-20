@@ -8,6 +8,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Formatter;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -22,9 +23,12 @@ public abstract class AmfAction implements Action {
 
 	private static Logger logger = Logger.getLogger(AmfAction.class.toString());
 	
-	public static String APP_SECRET = "bSv9ms2ZGU";
-	public static String APP_ID = "1995682";
+	protected static String APP_SECRET = "bSv9ms2ZGU";
+	protected static String APP_ID = "1995682";
 
+	protected String error ="";
+	protected Integer result;
+	
 	public AmfAction() {
 		headers.put("Host", "n1-mhouse-vk.ilikegames.ru");
 		headers.put("User-Agent","Mozilla/5.0 (Windows NT 6.1; rv:9.0.1) Gecko/20100101 Firefox/9.0.1 FirePHP/0.6");
@@ -96,12 +100,25 @@ public abstract class AmfAction implements Action {
 		}
 	}
 
-	public void unserialize(InputStream in, Object obj) {
+	@SuppressWarnings("unchecked")
+	public Object unserialize(InputStream in) {
+		 Map<Object, Object> obj = new HashMap<Object, Object>();
 		try {
 			AMF3Deserializer amf = new AMF3Deserializer(in);
-			obj = amf.readObject();
+			obj = (Map<Object, Object>)amf.readObject();
 		} catch (IOException e) {
 			 logger.log(Level.SEVERE, e.getMessage());
 		}
+		return obj;
+	}
+	
+	@Override
+	public boolean isError() {
+		return !error.isEmpty();
+	}
+	
+	@Override
+	public String getError() {
+		return error;
 	}
 }

@@ -19,7 +19,7 @@ public class Session {
 
 	@PrimaryKey
 	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
-	private Key key;
+	private Key id;
 
 	@Persistent
 	@ManyToOne
@@ -32,11 +32,11 @@ public class Session {
 	private String us_crc = "";
 
 	@Persistent
-	private String us_key = "";
+	private Integer us_key = 0;
 
-	public Session(String us_sid, String us_crc, String us_uid, String us_key) {
+	public Session(String us_sid, String us_crc, String us_uid, Integer us_key) {
 		super();
-		this.key = KeyFactory.createKey(UserFriend.class.getSimpleName(),
+		this.id = KeyFactory.createKey(Session.class.getSimpleName(),
 				us_uid);
 		this.us_sid = us_sid;
 		this.us_crc = us_crc;
@@ -44,15 +44,15 @@ public class Session {
 		this.us_key = us_key;
 	}
 
-	public Session(HashMap<String, String> data) {
-		us_sid = data.get("us_sid");
-		us_crc = data.get("us_crc");
-		us_uid = data.get("us_uid");
-		us_key = data.get("us_key");
+	public Session(HashMap<String, Object> data) {
+		us_sid = (String) data.get("us_sid");
+		us_crc = (String) data.get("us_crc");
+		us_uid = (String) data.get("us_uid");
+		us_key = (Integer) data.get("us_key");
 	}
 	
-	public HashMap<String, String> toHashMap(){
-		HashMap<String, String> data = new HashMap<String, String>();
+	public HashMap<String, Object> toHashMap(){
+		HashMap<String, Object> data = new HashMap<String, Object>();
 		data.put("us_sid",us_sid);
 		data.put("us_crc",us_crc);
 		data.put("us_uid",us_uid);
@@ -67,12 +67,12 @@ public class Session {
 				.append("us_key", us_key).toString();
 	}
 
-	public Key getKey() {
-		return key;
+	public Key getId() {
+		return id;
 	}
 
-	public void setKey(Key key) {
-		this.key = key;
+	public void setId(Key id) {
+		this.id = id;
 	}
 
 	public String getUs_uid() {
@@ -99,11 +99,11 @@ public class Session {
 		this.us_crc = us_crc;
 	}
 
-	public String getUs_key() {
+	public Integer getUs_key() {
 		return us_key;
 	}
 
-	public void setUs_key(String us_key) {
+	public void setUs_key(Integer us_key) {
 		this.us_key = us_key;
 	}
 
