@@ -55,6 +55,22 @@ public abstract class DatabaseDao<T> {
 			pm.close();
 		}
 	}
+	
+	public void deleteAll(Collection<T> objects) {
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		try {
+			Transaction tx = pm.currentTransaction();
+			tx.begin();
+			for (T object : objects) {
+				pm.deletePersistent(object);
+			}
+			tx.commit();
+		} catch (Exception ex) {
+			logger.log(Level.SEVERE, ex.getMessage());
+		} finally {
+			pm.close();
+		}
+	}
 
 	public void create(T object) {
 		PersistenceManager pm = PMF.get().getPersistenceManager();

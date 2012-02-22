@@ -55,7 +55,7 @@ public class UserAction extends AmfAction {
 			if (null != udata.get("user")) {
 				HashMap<String, Object> data = (HashMap<String, Object>) udata.get("user");
 				
-				//logger.log(Level.FINE, "data:" + StringUtil.toString(data));
+				logger.log(Level.FINE, "data:" + StringUtil.toString(data));
 				
 				user.setLevel(Long.parseLong(data.get("level").toString()));
 				user.setMoney(Long.parseLong(data.get("money").toString()));

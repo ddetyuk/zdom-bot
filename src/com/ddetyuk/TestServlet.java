@@ -28,11 +28,20 @@ public class TestServlet extends HttpServlet {
 	@SuppressWarnings("unchecked")
 	public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		
-		FileInputStream in = new FileInputStream("room_fin");
+		FileInputStream in = new FileInputStream("friend_help");
 		Map<Object, Object> obj = new HashMap<Object, Object>();
 		try {
 			AMF3Deserializer amf = new AMF3Deserializer(in);
 			obj = (Map<Object, Object>) amf.readObject();
+			
+			if (null != obj.get("form")) {
+				HashMap<String, Object> udata = (HashMap<String, Object>) obj.get("form");
+				if (null != udata.get("helps")) {
+					logger.log(Level.INFO, "data:" + StringUtil.toString(udata.get("helps")));
+				}
+				logger.log(Level.INFO, "data:" + StringUtil.toString(udata));
+			}
+			
 		} catch (Exception e) {
 			logger.log(Level.INFO, "Responce data:" + e.getMessage());
 		}

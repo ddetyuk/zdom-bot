@@ -5,4 +5,9 @@
     <description>Repopulate the cacheevery 1 hour</description>
     <schedule>every 1 hours</schedule>
   </cron>
+  <cron>
+    <url>/persistent</url>
+    <description>Repopulate the cacheevery 15 minutes</description>
+    <schedule>every 15 minutes</schedule>
+  </cron>
 </cronentries>
